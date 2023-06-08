@@ -22,7 +22,6 @@ default_args = {
 dag = DAG(
     'simple_pipeline',
     default_args=default_args,
-    schedule_interval=None,
     schedule_interval='@daily',  # Define your desired schedule here
 )
 
