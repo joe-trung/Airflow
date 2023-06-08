@@ -16,28 +16,33 @@ def load_data():
 # Define the DAG
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 6, 8)
+    'start_date': datetime(2023, 6, 8),
 }
 
-dag = DAG('simple_pipeline', default_args=default_args, schedule_interval=None)
+dag = DAG(
+    'simple_pipeline',
+    default_args=default_args,
+    schedule_interval=None,
+    schedule_interval='@daily',  # Define your desired schedule here
+)
 
 # Define the tasks
 extract_task = PythonOperator(
     task_id='extract_task',
     python_callable=extract_data,
-    dag=dag
+    dag=dag,
 )
 
 transform_task = PythonOperator(
     task_id='transform_task',
     python_callable=transform_data,
-    dag=dag
+    dag=dag,
 )
 
 load_task = BashOperator(
     task_id='load_task',
     bash_command='echo "Loading data..."',
-    dag=dag
+    dag=dag,
 )
 
 # Define the task dependencies
